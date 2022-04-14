@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": ""
+    "dev": "nodemon --exec babel-node server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,15 @@
   "bugs": {
     "url": "https://github.com/camelcrush/insta-clone/issues"
   },
-  "homepage": "https://github.com/camelcrush/insta-clone#readme"
+  "homepage": "https://github.com/camelcrush/insta-clone#readme",
+  "dependencies": {
+    "apollo-server": "^2.25.2",
+    "graphql": "^15.8.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/node": "^7.16.8",
+    "@babel/preset-env": "^7.16.11",
+    "nodemon": "^2.0.15"
+  }
 }
