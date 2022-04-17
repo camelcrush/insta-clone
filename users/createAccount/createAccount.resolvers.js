@@ -17,7 +17,7 @@ export default {
         }
         // passwrod hashing
         const uglyPasswrod = await bycrypt.hash(password, 10);
-        return client.user.create({
+        await client.user.create({
           data: {
             firstName,
             lastName,
@@ -26,8 +26,14 @@ export default {
             password: uglyPasswrod,
           },
         });
+        return {
+          ok: true,
+        };
       } catch (e) {
-        return e;
+        return {
+          ok: false,
+          error: "Can't create account.",
+        };
       }
     },
   },
