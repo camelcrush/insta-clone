@@ -19,3 +19,15 @@ export const getUser = async (token) => {
     return null;
   }
 };
+
+// Currying : 함수를 리턴하는 함수
+export const protectedResolver =
+  (ourResolver) => (root, args, context, info) => {
+    if (!context.loggedInUser) {
+      return {
+        ok: false,
+        error: "Please Login first.",
+      };
+    }
+    return ourResolver(root, args, context, info);
+  };
