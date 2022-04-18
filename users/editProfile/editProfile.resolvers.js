@@ -10,7 +10,9 @@ const resolveFn = async (
 ) => {
   const { filename, createReadStream } = await avatar;
   const readStream = createReadStream();
-  const writeStream = createWriteStream(process.cwd() + "/uploads/" + filename);
+  const writeStream = createWriteStream(
+    `${process.cwd()}/uploads/${Date.now()}-${filename}`
+  );
   readStream.pipe(writeStream);
   let uglyPassword = null;
   if (newPassword) {
