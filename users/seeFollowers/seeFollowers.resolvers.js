@@ -15,7 +15,7 @@ export default {
         };
       }
       // 나를 팔로우한 사람 찾기
-      const followers = client.user
+      const followers = await client.user
         .findUnique({ where: { username } })
         .followers({
           // Offset pagination
