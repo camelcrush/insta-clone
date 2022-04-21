@@ -8,4 +8,12 @@ export default {
     hashtags: ({ id }) =>
       client.hashtag.findMany({ where: { photos: { some: { id } } } }),
   },
+  Hashtag: {
+    photos: ({ id }, { page }, { loggedInUser }) =>
+      client.hashtag.findUnique({ where: { id } }).photos(),
+    totalPhotos: ({ id }) =>
+      client.photo.count({ where: { hashtags: { some: { id } } } }),
+  },
 };
+
+// resolve field(computed field) 도 args를 받을 수 있고, context도 받을 수 있음
