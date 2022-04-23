@@ -9,6 +9,7 @@ export default gql`
     email: String!
     bio: String
     avatar: String
+    photos(lastId: Int): [Photo]
     following: [User]
     followers: [User]
     totalFollowing: Int!

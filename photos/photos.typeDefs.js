@@ -19,3 +19,5 @@ export default gql`
     updatedAt: String!
   }
 `;
+
+// photos(page: Int!) : 필드에 args 넣는 것이 가능

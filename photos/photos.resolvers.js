@@ -9,8 +9,11 @@ export default {
       client.hashtag.findMany({ where: { photos: { some: { id } } } }),
   },
   Hashtag: {
+    // pagination 하기
     photos: ({ id }, { page }, { loggedInUser }) =>
-      client.hashtag.findUnique({ where: { id } }).photos(),
+      client.hashtag
+        .findUnique({ where: { id } })
+        .photos({ take: 10, skip: (page - 1) * 10 }),
     totalPhotos: ({ id }) =>
       client.photo.count({ where: { hashtags: { some: { id } } } }),
   },

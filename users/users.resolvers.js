@@ -23,5 +23,11 @@ export default {
       });
       return Boolean(exists);
     },
+    photos: ({ id }, { lastId }) =>
+      client.user.findUnique({ where: { id } }).photos({
+        take: 10,
+        skip: lastId ? 1 : 0,
+        ...(lastId && { cursor: { id: lastId } }),
+      }),
   },
 };
