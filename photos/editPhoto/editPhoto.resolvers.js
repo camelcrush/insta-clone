@@ -1,0 +1,39 @@
+import client from "../../client";
+import { protectedResolver } from "../../users/users.utils";
+import { processHashtags } from "../photos.utils";
+
+export default {
+  Mutation: {
+    editPhoto: protectedResolver(
+      async (_, { id, caption }, { loggedInUser }) => {
+        const oldPhoto = await client.photo.findFirst({
+          where: { id, userId: loggedInUser.id },
+          include: {
+            hashtags: {
+              select: { hashtag: true },
+            },
+          },
+        });
+        if (!oldPhoto) {
+          return {
+            ok: false,
+            error: "Photo not found.",
+          };
+        }
+        await client.photo.update({
+          where: { id },
+          data: {
+            caption,
+            hashtags: {
+              disconnect: oldPhoto.hashtags, // 지난 사진 해쉬태그 지우기
+              connectOrCreate: processHashtags(caption), // 에딧된 해쉬태그 추가하기
+            },
+          },
+        });
+        return {
+          ok: true,
+        };
+      }
+    ),
+  },
+};
