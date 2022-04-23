@@ -7,6 +7,8 @@ export default {
     user: ({ userId }) => client.user.findUnique({ where: { id: userId } }),
     hashtags: ({ id }) =>
       client.hashtag.findMany({ where: { photos: { some: { id } } } }),
+    // photo가 가진 like 카운트
+    likes: ({ id }) => client.like.count({ where: { photoId: id } }),
   },
   Hashtag: {
     // pagination 하기
