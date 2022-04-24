@@ -9,6 +9,7 @@ export default {
       client.hashtag.findMany({ where: { photos: { some: { id } } } }),
     // photo가 가진 like 카운트
     likes: ({ id }) => client.like.count({ where: { photoId: id } }),
+    comments: ({ id }) => client.comment.count({ where: { photoId: id } }),
   },
   Hashtag: {
     // pagination 하기
