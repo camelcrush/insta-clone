@@ -23,15 +23,13 @@ export default {
         // like 레코드가 없으면 만들기
         await client.like.create({
           data: {
-            // user와 photo 동시 유니크 연결
-            // user: {
-            //   connect: { id: loggedInUser.id },
-            // },
-            // photo: {
-            //   connect: { id: photo.id },
-            // },
-            userId: loggedInUser.id,
-            photoId: photo.id,
+            //user와 photo 동시 유니크 연결
+            user: {
+              connect: { id: loggedInUser.id },
+            },
+            photo: {
+              connect: { id: photo.id },
+            },
           },
         });
       }
