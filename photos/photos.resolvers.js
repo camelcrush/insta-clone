@@ -10,6 +10,12 @@ export default {
     // photo가 가진 like 카운트
     likes: ({ id }) => client.like.count({ where: { photoId: id } }),
     comments: ({ id }) => client.comment.count({ where: { photoId: id } }),
+    isMine: ({ userId }, _, { loggedInUser }) => {
+      if (!loggedInUser) {
+        return false;
+      }
+      return userId === loggedInUser.id;
+    },
   },
   Hashtag: {
     // pagination 하기
