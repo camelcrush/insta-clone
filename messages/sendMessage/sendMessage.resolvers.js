@@ -1,4 +1,6 @@
 import client from "../../client";
+import { NEW_MESSAGE } from "../../constants";
+import pubsub from "../../pubSub";
 import { protectedResolver } from "../../users/users.utils";
 
 export default {
@@ -6,6 +8,7 @@ export default {
     sendMessage: protectedResolver(
       async (_, { payload, roomId, userId }, { loggedInUser }) => {
         let room = null; // room 전역변수 설정
+        // 챌린지: 이미 룸이 있다면 룸을 새로 생성하지 않기
         if (userId) {
           // userId가 있으면 User 찾기
           const user = await client.user.findUnique({
@@ -47,7 +50,7 @@ export default {
           }
         }
         // message 만들기
-        await client.message.create({
+        const message = await client.message.create({
           data: {
             payload,
             room: {
@@ -58,6 +61,8 @@ export default {
             },
           },
         });
+        // pubsub.publish를 통해 이벤트 발생
+        pubsub.publish(NEW_MESSAGE, { roomUpdates: { ...message } });
         return {
           ok: true,
         };
