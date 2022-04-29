@@ -11,13 +11,33 @@ const PORT = process.env.PORT;
 const apollo = new ApolloServer({
   typeDefs,
   resolvers,
-  context: async ({ req }) => {
+  context: async (ctx) => {
     // 실시간 protocol인 ws(websocket)의 경우 request가 없으므로 에러가 발생: 조건문 처리
-    if (req) {
+    if (ctx.req) {
       return {
-        loggedInUser: await getUser(req.headers.token),
+        loggedInUser: await getUser(ctx.req.headers.token),
+      };
+    } else {
+      const {
+        connection: { context },
+      } = ctx;
+      return {
+        loggedInUser: context.loggedInUser,
       };
     }
+  },
+  subscriptions: {
+    // onConnect를 통해 header 내용을 받아올 수 있음.
+    onConnect: async ({ token }) => {
+      if (!token) {
+        throw new Error("You can't listen.");
+      }
+      const loggedInUser = await getUser(token);
+      // onConnect에서 리턴을 하면 데이터는 context로 이동함.
+      return {
+        loggedInUser,
+      };
+    },
   },
 });
 
