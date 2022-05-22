@@ -28,7 +28,7 @@ export default {
             if (roomUpdates.roomId === id) {
               const room = await client.room.findFirst({
                 where: {
-                  id: args.id,
+                  id,
                   users: { some: { id: loggedInUser.id } },
                 },
                 select: { id: true },

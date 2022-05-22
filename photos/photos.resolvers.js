@@ -9,7 +9,12 @@ export default {
       client.hashtag.findMany({ where: { photos: { some: { id } } } }),
     // photo가 가진 like 카운트
     likes: ({ id }) => client.like.count({ where: { photoId: id } }),
-    comments: ({ id }) => client.comment.count({ where: { photoId: id } }),
+    commentCount: ({ id }) => client.comment.count({ where: { photoId: id } }),
+    comments: ({ id }) =>
+      client.comment.findMany({
+        where: { photoId: id },
+        include: { user: true },
+      }),
     isMine: ({ userId }, _, { loggedInUser }) => {
       if (!loggedInUser) {
         return false;

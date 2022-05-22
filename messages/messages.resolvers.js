@@ -6,6 +6,9 @@ export default {
     messages: ({ id }) =>
       client.message.findMany({
         where: { roomId: id },
+        orderBy: {
+          createdAt: "desc",
+        },
       }),
     unreadTotal: ({ id }, _, { loggedInUser }) => {
       if (!loggedInUser) {
