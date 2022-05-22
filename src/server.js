@@ -11,6 +11,7 @@ const PORT = process.env.PORT;
 const apollo = new ApolloServer({
   typeDefs,
   resolvers,
+  playground: true,
   context: async (ctx) => {
     // 실시간 protocol인 ws(websocket)의 경우 request가 없으므로 에러가 발생: 조건문 처리
     if (ctx.req) {
