@@ -1,7 +1,7 @@
 import { withFilter } from "graphql-subscriptions";
 import client from "../../client";
 import { NEW_MESSAGE } from "../../constants";
-import pubsub from "../../pubSub";
+import pubsub from "../../pubSub.js";
 
 export default {
   Subscription: {
